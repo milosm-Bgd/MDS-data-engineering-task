@@ -15,6 +15,7 @@ from files.processor import process_one_bucket
 from files.worker import bucket_worker
 from common.metrics import init_file_metrics
 
+# I pipeline:  message pipeline
 def run_message_pipeline():
     from queue import Queue
     import threading
@@ -22,7 +23,7 @@ def run_message_pipeline():
 
     work_queue = Queue(maxsize=50)
 
-    # start workers
+    # startovanje worker-a
     metrics = {
         "batches_ok": 0,
         "batches_failed": 0,
@@ -37,22 +38,22 @@ def run_message_pipeline():
             daemon=True,
         ).start()
 
-    # produce minibatches (time-bounded simulation)
+    # proizvodnja mini-batcheva (vremenski ograničena simulacija)
     minibatch_collector(
         message_source(duration_sec=300),
         window_sec=5,
         out_queue=work_queue,
     )
 
-    # wait for all batches to finish
+    # čekamo da se obrada svih batche-va završi
     work_queue.join()
 
-    # stop workers
+    # zaustavljanje worker-a
     stop_event.set()
     time.sleep(1)
     print("STREAMING METRICS:", metrics)
 
-
+# II pipeline: nightly file pipeline:
 def run_file_pipeline():
     files = create_fake_files(100)
     buckets = bfd_buckets(files, 10 * 1024 * 1024)
