@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Git
+.git/
+.gitignore
+
+# Local tooling
+.vscode/
+.venv/
+
+# Notebooks
+notebooks/
+
+# Large files
+data/incoming_files/
+data/processed/
