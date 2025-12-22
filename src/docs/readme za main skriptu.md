@@ -1,18 +1,24 @@
 
 **main.py** docs
 
-# main.py – Orkestracija Data Engineering Pipeline-ova
+#### main.py – Orkestracija Data Engineering Pipeline-ova
 
 Ovaj fajl predstavlja **ulaznu tačku (entry point)** projekta i ima ulogu **orkestratora** koji pokreće i koordinira dva nezavisna pipeline-a:
 
 1. **Streaming pipeline** – obrada poruka u realnom vremenu korišćenjem minibatch pristupa
 2. **File (batch) pipeline** – obrada fajlova u noćnom / batch režimu
 
-Cilj dizajna je da demonstrira tipične **data engineering obrasce**: producer–consumer model, rad sa redovima (Queue), multithreading, metrike, graceful shutdown i modularnost.
+Cilj dizajna je da demonstrira tipične **data engineering obrasce**: 
+    - producer–consumer model, 
+    - rad sa redovima (Queue), 
+    - multithreading, 
+    - metrike, 
+    - graceful shutdown i 
+    - modularnost.
 
 ---
 
-## Pregled uvoza (imports)
+## Pregled uvoza /importa
 
 ```python
 from queue import Queue
@@ -37,7 +43,7 @@ from streaming.worker import worker
 from streaming.processing import process_batch
 ```
 
-Ovi moduli čine **streaming podsistem**:
+Moduli koji čine **streaming podsistem**:
 
 * `message_source` – simulira real-time izvor poruka
 * `minibatch_collector` – grupiše poruke u vremenske minibatch-e
@@ -63,7 +69,7 @@ Ovi moduli implementiraju **batch / file pipeline**:
 * `bfd_buckets` – grupiše fajlove u bucket-e po veličini
 * `bucket_worker` – worker za obradu bucket-a
 * `process_one_bucket` – logika obrade jednog bucket-a
-* `init_file_metrics` – inicijalizacija metrika za file pipeline
+* `init_file_metrics` – inicijalizacija metrika
 
 ---
 
@@ -170,7 +176,7 @@ files = create_fake_files(100)
 buckets = bfd_buckets(files, 10 * 1024 * 1024)
 ```
 
-* Generiše se 100 lažnih fajlova
+* Generiše se 100 fake fajlova
 * Fajlovi se grupišu u bucket-e maksimalne veličine 10 MB
 
 Ovo simulira tipičan **ETL file ingestion** scenario.
@@ -234,11 +240,11 @@ parser.add_argument(
 )
 ```
 
-Omogućava pokretanje pipeline-a iz komandne linije:
+Omogućava pokretanje pipeline-a iz cmd-a:
 
-* `files` – samo file pipeline
-* `streaming` – samo streaming pipeline
-* `all` – oba pipeline-a paralelno
+* `files` –  za file pipeline
+* `streaming` – za streaming pipeline
+* `all` – oba pipeline-a istovremeno
 
 ---
 
@@ -272,5 +278,4 @@ Ovaj fajl je posebno pogodan za **code review**, jer pokazuje razumevanje:
 
 * multithreading-a
 * producer–consumer arhitekture
-* backpressure mehanizama
 * metrika i graceful shutdown-a
