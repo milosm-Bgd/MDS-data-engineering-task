@@ -1,6 +1,4 @@
 
-**main.py** docs
-
 #### main.py – Orkestracija Data Engineering Pipeline-ova
 
 Ovaj fajl predstavlja **ulaznu tačku (entry point)** projekta i ima ulogu **orkestratora** koji pokreće i koordinira dva nezavisna pipeline-a:
