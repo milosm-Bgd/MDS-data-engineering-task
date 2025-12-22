@@ -1,4 +1,4 @@
-# Data Engineering zadatak – Streaming i obrada fajlova
+# Data engineering zadatak – Streaming i obrada fajlova
 
 Ovaj projekat modeluje **dva nezavisna data processing pipeline-a**:
 
@@ -46,9 +46,9 @@ Cilj projekta je da demonstrira:
 ### Bucketing strategije
 
 Implementirane su sledeće strategije:
-- ** FF - First Fit **
-- ** FFD - First Fit Decreasing **
-- ** BFD - Best Fit Decreasing **
+- **FF** - First Fit 
+- **FFD** - First Fit Decreasing
+- **BFD** - Best Fit Decreasing
 
 Strategija se može lako zameniti.
 ---
@@ -56,10 +56,10 @@ Strategija se može lako zameniti.
 ## Struktura projekta
 
 src/
-streaming/ # live message ingestion
-files/ # nightly file ingestion
-common/ # shared utilities
-main.py # orchestration entry point
+streaming/
+files/
+common/ 
+main.py
 
 tests/
 test_streaming.py
@@ -77,7 +77,7 @@ Mock-ovani su:
 
 - izvori
 - veličina fajlova
-- obrada fajlova 
+- obrada fajlova
 - processing funkcije
 
 Cilj testova je da se proveri:
@@ -86,12 +86,6 @@ Cilj testova je da se proveri:
 - paralelno izvršavanje
 - retry mehanizmi
 - ispravno gašenje worker-a
-
-### Pokretanje testova
-PYTHONPATH=src pytest
-
-### Pokretanje noćnog pipelina za fajlove:
-python src/main.py
 
 Način dizajna:
 
