@@ -262,40 +262,15 @@ Ovo demonstrira **koegzistenciju real-time i batch sistema**, što je čest slu�
 
 ## Zaključak
 
-`main.py` predstavlja centralni orkestracioni sloj koji:
+`main.py` predstavlja centralni orkestracioni layer koji:
 
 * jasno razdvaja streaming i batch logiku
 * koristi standardne concurrency obrasce
 * omogućava testiranje, proširenje i demonstraciju znanja iz oblasti data engineering-a
 
-Ovaj fajl je posebno pogodan za **intervjue i code review**, jer pokazuje razumevanje:
+Ovaj fajl je posebno pogodan za **code review**, jer pokazuje razumevanje:
 
 * multithreading-a
 * producer–consumer arhitekture
 * backpressure mehanizama
 * metrika i graceful shutdown-a
-
-
-
-Dokumentacija za **`main.py`** je sada kreirana na srpskom jeziku i prikazana u **canvasu** pored chata.
-
-📌 Šta ova dokumentacija pokriva (što je važno za reviewere):
-
-* jasnu **ulogu fajla kao orkestratora**
-* razdvajanje **streaming** i **batch (file)** pipeline-ova
-* objašnjenje **threading modela**, `Queue`-a i `Event`-a
-* obrazloženje dizajnerskih odluka (backpressure, graceful shutdown)
-* CLI interfejs i paralelno izvršavanje pipeline-ova
-* terminologiju koja se poklapa sa realnim **data engineering sistemima**
-
-📂 Ovaj tekst je spreman za:
-
-* `README` podsekciju
-* zaseban `docs/main.md`
-* direktan code review u javnom GitHub repozitorijumu
-
-👉 Sledeći logičan korak u seriji:
-
-* `streaming/source.py` (message_source)
-* ili `streaming/minibatch.py`
-* ili `worker` / `retry_with_backoff` (odlični za intervju)
