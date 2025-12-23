@@ -45,7 +45,7 @@ Moduli koji čine **streaming podsistem**:
 
 * `message_source` – simulira real-time izvor poruka
 * `minibatch_collector` – grupiše poruke u vremenske minibatch-e
-* `worker` – generički worker koji obrađuje batch-e iz reda
+* `worker` – generički worker koji obrađuje batch-eve iz reda
 * `process_batch` – konkretna logika obrade jednog batch-a
 * `retry_with_backoff` – mehanizam za retry (korišćen u worker-u)
 
@@ -67,13 +67,13 @@ Ovi moduli implementiraju **batch / file pipeline**:
 * `bfd_buckets` – grupiše fajlove u bucket-e po veličini
 * `bucket_worker` – worker za obradu bucket-a
 * `process_one_bucket` – logika obrade jednog bucket-a
-* `init_file_metrics` – inicijalizacija metrika
+* `init_file_metrics` –  metrike
 
 ---
 
 ## Funkcija: `run_message_pipeline()`
 
-Ova funkcija pokreće **streaming pipeline**.
+pokreće **streaming pipeline**.
 
 ### Kreiranje queue-a /reda i osnovnih objekata
 
@@ -104,7 +104,7 @@ Ovo je standardan obrazac za **graceful shutdown** u multithreading okruženju.
 
 ---
 
-### Pokretanje worker niti
+### Pokretanje worker "treda" /niti
 
 ```python
 for i in range(10):
@@ -118,11 +118,11 @@ for i in range(10):
 * Pokreće se 10 paralelnih worker-a
 * Svaki worker:
 
-  * čita batch-e iz reda
+  * čita batch iz reda
   * obrađuje ih pomoću `process_batch`
   * ažurira metrike
 
-`daemon=True` znači da se niti automatski gase kada se glavni proces završi.
+`daemon=True` znači da se "tredovi" automatski gase kada se glavni proces završi.
 
 ---
 
@@ -136,14 +136,14 @@ minibatch_collector(
 )
 ```
 
-* `message_source` emituje poruke tokom 5 minuta
+* `message_source` emituje poruke tokom 5 minuta shodno zhtevu zadatka
 * `minibatch_collector`:
 
-  * skuplja poruke u vremenske prozore od 5 sekundi
-  * formira minibatch-e
+  * skuplja poruke u vremenske okvire od 5 sekundi
+  * formira minibatch-eve
   * ubacuje ih u `work_queue`
 
-Ovo simulira realan **streaming ingestion + windowing** scenario.
+Ovo simulira realan **streaming ingestion** scenario.
 
 ---
 
@@ -210,7 +210,7 @@ for i in range(10):
 
 * Pokreće se 10 worker-a
 * Svaki worker obrađuje jedan bucket odjednom
-* Metrike se centralno ažuriraju
+* Metrike se update-uju
 
 ---
 
@@ -222,7 +222,7 @@ stop_event.set()
 print("NIGHTLY FILES METRICS:", metrics)
 ```
 
-* Čeka se da svi bucket-i budu obrađeni
+* Čeka da svi bucket-i budu obrađeni
 * Signalizira se zaustavljanje worker-a
 * Ispisuju se rezultati
 
@@ -256,11 +256,11 @@ run_file_pipeline()
 t.join()
 ```
 
-* Streaming pipeline se pokreće u posebnoj niti
-* File pipeline se izvršava u glavnoj niti
+* Streaming pipeline se pokreće u posebnom tredu 
+* File pipeline se izvršava u glavnom tredu 
 * Na kraju se čeka završetak oba
 
-Ovo demonstrira **koegzistenciju real-time i batch sistema**, što je čest slučaj u realnim data platformama.
+Ovo demonstrira **koegzistenciju real-time i batch sistema**.
 
 ---
 
@@ -276,4 +276,5 @@ Ovaj fajl je posebno pogodan za **code review**, jer pokazuje razumevanje:
 
 * multithreading-a
 * producer–consumer arhitekture
-* metrika i graceful shutdown-a
+* računanje metrika i
+* graceful shutdown-a
